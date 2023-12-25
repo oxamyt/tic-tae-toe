@@ -1,0 +1,29 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+}
+
+.gameboard {
+  width: 40%;
+  display: grid;
+  gap: 30px;
+  padding: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2px solid red;
+}
+
+.cell {
+  color: #3a3b3c;
+  background-color: #fdf2f8;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 10rem;
+  cursor: pointer;
+}

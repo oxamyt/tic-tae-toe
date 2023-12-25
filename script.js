@@ -16,10 +16,6 @@
 
 
 
-
-
-
-
 // Create the game board
 const board = [
   ["", "", ""],
@@ -38,19 +34,16 @@ function displayBoard() {
   }
 }
 
-
-// Place the player's mark
-function placeMark() {
-  const players = [
-    {
-      name: 'playerOne',
-      marker: 'O',
-    },
-    {
-      name: 'playerTwo',
-      marker: 'X',
-    },
-  ];
+const players = [
+  {
+    name: 'playerOne',
+    marker: 'O',
+  },
+  {
+    name: 'playerTwo',
+    marker: 'X',
+  },
+];
 
 let activePlayer = players[0].marker;
 
@@ -58,6 +51,8 @@ const switchPlayerTurn = function() {
   activePlayer = activePlayer === players[0].marker ? players[1].marker : players[0].marker;
   return activePlayer
 };
+// Place the player's mark
+function placeMark() {
   let row = prompt("Which row?");
   let col = prompt("Which column?");
   if (board[row][col].length === 0){
@@ -117,5 +112,5 @@ function checkWinner() {
   }
 }
 
-const btn = document.querySelector('.s');
-btn.addEventListener('click', placeMark)
+// const btn = document.querySelector('.s');
+// btn.addEventListener('click', placeMark)
