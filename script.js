@@ -60,76 +60,83 @@ const switchPlayerTurn = function () {
   return activePlayer;
 };
 // Place the player's mark
-function placeMark() {
-  let row = prompt("Which row?");
-  let col = prompt("Which column?");
+function placeMark(row, col) {
   if (boardFunction[row][col].length === 0) {
     boardFunction[row][col] = mark = switchPlayerTurn();
     displayBoard();
     render();
     checkWinner();
-  } else {
-    alert("It`s occupied");
-    render()
   }
 }
 
 // Check for a winner
 function checkWinner() {
   for (let i = 0; i < 3; i++) {
-    if (boardFunction[i][0] != "")
-      if (
-        boardFunction[i][0] == "X" &&
-        boardFunction[i][1] == boardFunction[i][0] &&
-        boardFunction[i][1] == boardFunction[i][2]
-      ) {
-        alert(`Player Two Won!`);
-      } else if (
-        boardFunction[i][0] == "O" &&
-        boardFunction[i][1] == boardFunction[i][0] &&
-        boardFunction[i][1] == boardFunction[i][2]
-      ) {
-        alert(`Player One Won!`);
-      }
-  }
+    if (
+      boardFunction[i][0] == "X" &&
+      boardFunction[i][1] == boardFunction[i][0] &&
+      boardFunction[i][1] == boardFunction[i][2]
+    ) {
+      alert(`Player Two Won!`);
+    } else if (
+      boardFunction[i][0] == "O" &&
+      boardFunction[i][1] == boardFunction[i][0] &&
+      boardFunction[i][1] == boardFunction[i][2]
+    ) {
+      alert(`Player One Won!`);
+    }
   if (
-    boardFunction[0][0] !== "" &&
-    boardFunction[0][1] !== "" &&
-    boardFunction[0][2] !== "" &&
-    boardFunction[1][0] !== "" &&
-    boardFunction[1][1] !== "" &&
-    boardFunction[1][2] !== "" &&
-    boardFunction[2][0] !== "" &&
-    boardFunction[2][1] !== "" &&
-    boardFunction[2][2] !== ""
+    boardFunction[0][i] == "X" &&
+    boardFunction[1][i] == boardFunction[0][i] &&
+    boardFunction[1][i] == boardFunction[2][i]
   ) {
-    alert(`Draw!`);
+    alert(`Player Two Won!`);
+  } else if (
+    boardFunction[0][i] == "O" &&
+    boardFunction[1][i] == boardFunction[0][i] &&
+    boardFunction[1][i] == boardFunction[2][i]
+  ) {
+    alert(`Player One Won!`);
+  }
+}
+}
+if (
+  boardFunction[0][0] !== "" &&
+  boardFunction[0][1] !== "" &&
+  boardFunction[0][2] !== "" &&
+  boardFunction[1][0] !== "" &&
+  boardFunction[1][1] !== "" &&
+  boardFunction[1][2] !== "" &&
+  boardFunction[2][0] !== "" &&
+  boardFunction[2][1] !== "" &&
+  boardFunction[2][2] !== ""
+) {
+  alert(`Draw!`);
+}
+
+function render() {
+  const gameboard = document.querySelector(".gameboard");
+  gameboard.innerHTML = "";
+  for (let i = 0; i < boardFunction.length; i++) {
+    for (let j = 0; j < boardFunction.length; j++) {
+      let cellMark = boardFunction[i][j];
+      let cell = document.createElement("div");
+      cell.setAttribute("data-i", i);
+      cell.setAttribute("data-j", j);
+      cell.classList.add("cell");
+      cell.innerText = cellMark;
+      gameboard.appendChild(cell);
+    }
+    gameboard.addEventListener("click", (e) => {
+      if (e.target == e.currentTarget) return;
+      const i = e.target.getAttribute("data-i");
+      const j = e.target.getAttribute("data-j");
+      placeMark(i, j);
+    });
   }
 }
 
-function render(){
-  const gameboard = document.querySelector('.gameboard');
-  gameboard.innerHTML = '';
-  for(let i = 0; i < boardFunction.length; i++){
-    let cellMark = boardFunction[0][i];
-    let cell = document.createElement ('div');
-    cell.innerHTML = `<div class='cell'>${cellMark}</div>`
-    gameboard.appendChild(cell);
-  }
-  for(let i = 0; i < boardFunction.length; i++){
-    let cellMark = boardFunction[1][i];
-    let cell = document.createElement ('div');
-    cell.innerHTML = `<div class='cell'>${cellMark}</div>`
-    gameboard.appendChild(cell);
-  }
-  for(let i = 0; i < boardFunction.length; i++){
-    let cellMark = boardFunction[2][i];
-    let cell = document.createElement ('div');
-    cell.innerHTML = `<div class='cell'>${cellMark}</div>`
-    gameboard.appendChild(cell);
-  }
-}
+const cell = document.querySelector(".cell");
 
-
-const btn = document.querySelector(".s");
-btn.addEventListener("click", placeMark);
+const btn = document.querySelector(".mark");
+render();
