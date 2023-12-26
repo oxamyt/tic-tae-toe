@@ -9,108 +9,127 @@
 // 2. Check if he`s playerOne or playerTwo
 // 3. Fill in mark of playerOne or playerTwo.
 // 4. Check if player won and if not give turn to other player and repeat from step 2.
-// Start from making board
+// Start from making boardFunction
 // Make game control
 // Make player input feature.
 
+// Create the game boardFunction
+const boardFunction = (function () {
+  const board = [
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+  ];
+  return board;
+})();
 
-
-
-// Create the game board
-const board = [
-  ["", "", ""],
-  ["", "", ""],
-  ["", "", ""],
-];
-
-// Display the game board
+// Display the game boardFunction
 function displayBoard() {
   console.clear(); // Clear the console for a clean display
   for (let i = 0; i < 3; i++) {
     console.log("-----------");
     console.log(
-      " | " + board[i][0] + " | " + board[i][1] + " | " + board[i][2] + " | "
+      " | " +
+        boardFunction[i][0] +
+        " | " +
+        boardFunction[i][1] +
+        " | " +
+        boardFunction[i][2] +
+        " | "
     );
   }
 }
 
-const players = [
-  {
-    name: 'playerOne',
-    marker: 'O',
-  },
-  {
-    name: 'playerTwo',
-    marker: 'X',
-  },
-];
+function createPlayer(name, marker) {
+  return {
+    name: name,
+    marker: marker,
+  };
+}
+
+const playerOne = createPlayer("PlayerOne", "O");
+const playerTwo = createPlayer("PlayerTwo", "X");
+
+const players = [playerOne, playerTwo];
 
 let activePlayer = players[0].marker;
 
-const switchPlayerTurn = function() {
-  activePlayer = activePlayer === players[0].marker ? players[1].marker : players[0].marker;
-  return activePlayer
+const switchPlayerTurn = function () {
+  activePlayer =
+    activePlayer === players[0].marker ? players[1].marker : players[0].marker;
+  return activePlayer;
 };
 // Place the player's mark
 function placeMark() {
   let row = prompt("Which row?");
   let col = prompt("Which column?");
-  if (board[row][col].length === 0){
-  let mark = switchPlayerTurn()
-  board[row][col] = mark;
-  displayBoard()
-  checkWinner()
+  if (boardFunction[row][col].length === 0) {
+    boardFunction[row][col] = mark = switchPlayerTurn();
+    displayBoard();
+    render();
+    checkWinner();
+  } else {
+    alert("It`s occupied");
+    render()
   }
-  else { alert('It`s occupied')}
 }
-
-
-
 
 // Check for a winner
 function checkWinner() {
-  if (board[0][0] == 'X'&& board[0][1] == 'X' && board[0][2] == 'X' ){
-    alert('You won!')
+  for (let i = 0; i < 3; i++) {
+    if (boardFunction[i][0] != "")
+      if (
+        boardFunction[i][0] == "X" &&
+        boardFunction[i][1] == boardFunction[i][0] &&
+        boardFunction[i][1] == boardFunction[i][2]
+      ) {
+        alert(`Player Two Won!`);
+      } else if (
+        boardFunction[i][0] == "O" &&
+        boardFunction[i][1] == boardFunction[i][0] &&
+        boardFunction[i][1] == boardFunction[i][2]
+      ) {
+        alert(`Player One Won!`);
+      }
   }
-  else if (board[1][0] == 'X'&& board[1][1] == 'X' && board[1][2] == 'X' ){
-    alert('You won!')
-  }
-  else if (board[2][0] == 'X'&& board[2][1] == 'X' && board[2][2] == 'X' ){
-    alert('You won!')
-  }
-  else if (board[0][0] == 'X'&& board[1][0] == 'X' && board[2][0] == 'X' ){
-    alert('You won!')
-  }
-  else if (board[0][1] == 'X'&& board[1][1] == 'X' && board[2][1] == 'X' ){
-    alert('You won!')
-  }
-  else if (board[0][2] == 'X'&& board[1][2] == 'X' && board[2][2] == 'X' ){
-    alert('You won!')
-  }
-  else if (board[0][0] == 'O'&& board[0][1] == 'O' && board[0][2] == 'O' ){
-    alert('You won!')
-  }
-  else if (board[1][0] == 'O'&& board[1][1] == 'O' && board[1][2] == 'O' ){
-    alert('You won!')
-  }
-  else if (board[2][0] == 'O'&& board[2][1] == 'O' && board[2][2] == 'O' ){
-    alert('You won!')
-  }
-  else if (board[0][0] == 'O'&& board[1][0] == 'O' && board[2][0] == 'O' ){
-    alert('You won!')
-  }
-  else if (board[0][1] == 'O'&& board[1][1] == 'O' && board[2][1] == 'O' ){
-    alert('You won!')
-  }
-  else if (board[0][2] == 'O'&& board[1][2] == 'O' && board[2][2] == 'O' ){
-    alert('You won!')
-  }
-  else if (board[0][0] !== ''&& board[0][1] !== '' && board[0][2] !== '' && board[1][0] !== ''
-           && board[1][1] !== '' && board[1][2] !== '' && board[2][0] !== '' && board[2][1] !== ''
-           && board[2][2] !== '' ){
-    alert("Draw!")
+  if (
+    boardFunction[0][0] !== "" &&
+    boardFunction[0][1] !== "" &&
+    boardFunction[0][2] !== "" &&
+    boardFunction[1][0] !== "" &&
+    boardFunction[1][1] !== "" &&
+    boardFunction[1][2] !== "" &&
+    boardFunction[2][0] !== "" &&
+    boardFunction[2][1] !== "" &&
+    boardFunction[2][2] !== ""
+  ) {
+    alert(`Draw!`);
   }
 }
 
-// const btn = document.querySelector('.s');
-// btn.addEventListener('click', placeMark)
+function render(){
+  const gameboard = document.querySelector('.gameboard');
+  gameboard.innerHTML = '';
+  for(let i = 0; i < boardFunction.length; i++){
+    let cellMark = boardFunction[0][i];
+    let cell = document.createElement ('div');
+    cell.innerHTML = `<div class='cell'>${cellMark}</div>`
+    gameboard.appendChild(cell);
+  }
+  for(let i = 0; i < boardFunction.length; i++){
+    let cellMark = boardFunction[1][i];
+    let cell = document.createElement ('div');
+    cell.innerHTML = `<div class='cell'>${cellMark}</div>`
+    gameboard.appendChild(cell);
+  }
+  for(let i = 0; i < boardFunction.length; i++){
+    let cellMark = boardFunction[2][i];
+    let cell = document.createElement ('div');
+    cell.innerHTML = `<div class='cell'>${cellMark}</div>`
+    gameboard.appendChild(cell);
+  }
+}
+
+
+const btn = document.querySelector(".s");
+btn.addEventListener("click", placeMark);
