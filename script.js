@@ -85,35 +85,62 @@ function checkWinner() {
     ) {
       alert(`Player One Won!`);
     }
+    if (
+      boardFunction[0][i] == "X" &&
+      boardFunction[1][i] == boardFunction[0][i] &&
+      boardFunction[1][i] == boardFunction[2][i]
+    ) {
+      alert(`Player Two Won!`);
+    } else if (
+      boardFunction[0][i] == "O" &&
+      boardFunction[1][i] == boardFunction[0][i] &&
+      boardFunction[1][i] == boardFunction[2][i]
+    ) {
+      alert(`Player One Won!`);
+    }
+  }
   if (
-    boardFunction[0][i] == "X" &&
-    boardFunction[1][i] == boardFunction[0][i] &&
-    boardFunction[1][i] == boardFunction[2][i]
+    boardFunction[0][0] == "X" &&
+    boardFunction[1][1] == boardFunction[0][0] &&
+    boardFunction[2][2] == boardFunction[1][1]
   ) {
     alert(`Player Two Won!`);
-  } else if (
-    boardFunction[0][i] == "O" &&
-    boardFunction[1][i] == boardFunction[0][i] &&
-    boardFunction[1][i] == boardFunction[2][i]
+  }
+  if (
+    boardFunction[0][2] == "X" &&
+    boardFunction[1][1] == boardFunction[0][2] &&
+    boardFunction[2][0] == boardFunction[1][1]
+  ) {
+    alert(`Player Two Won!`);
+  }
+  if (
+    boardFunction[0][0] == "O" &&
+    boardFunction[1][1] == boardFunction[0][0] &&
+    boardFunction[2][2] == boardFunction[1][1]
   ) {
     alert(`Player One Won!`);
   }
+  if (
+    boardFunction[0][2] == "O" &&
+    boardFunction[1][1] == boardFunction[0][2] &&
+    boardFunction[2][0] == boardFunction[1][1]
+  ) {
+    alert(`Player One Won!`);
+  }
+  if (
+    boardFunction[0][0] !== "" &&
+    boardFunction[0][1] !== "" &&
+    boardFunction[0][2] !== "" &&
+    boardFunction[1][0] !== "" &&
+    boardFunction[1][1] !== "" &&
+    boardFunction[1][2] !== "" &&
+    boardFunction[2][0] !== "" &&
+    boardFunction[2][1] !== "" &&
+    boardFunction[2][2] !== ""
+  ) {
+    alert(`Draw!`);
+  }
 }
-}
-if (
-  boardFunction[0][0] !== "" &&
-  boardFunction[0][1] !== "" &&
-  boardFunction[0][2] !== "" &&
-  boardFunction[1][0] !== "" &&
-  boardFunction[1][1] !== "" &&
-  boardFunction[1][2] !== "" &&
-  boardFunction[2][0] !== "" &&
-  boardFunction[2][1] !== "" &&
-  boardFunction[2][2] !== ""
-) {
-  alert(`Draw!`);
-}
-
 function render() {
   const gameboard = document.querySelector(".gameboard");
   gameboard.innerHTML = "";
@@ -137,6 +164,4 @@ function render() {
 }
 
 const cell = document.querySelector(".cell");
-
-const btn = document.querySelector(".mark");
 render();
