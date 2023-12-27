@@ -1,6 +1,7 @@
-body{
-  background: linear-gradient(#ABC8E2, #D6E4F0);
+body {
+  background: linear-gradient(#abc8e2, #d6e4f0);
   min-height: 100vh;
+  font-family: "Roboto", sans-serif;
 }
 
 .container {
@@ -11,25 +12,25 @@ body{
   align-items: center;
 }
 
-.header{
+.header {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
-.heading{
+.heading {
   font-size: 4rem;
   color: #346785;
 }
 
-.status{
+.status {
   font-weight: bold;
   font-size: 2.5rem;
   color: #346785;
 }
 
-.restartbtn{
+.restartbtn {
   text-decoration: none;
   padding: 1rem;
   border: none;
@@ -37,11 +38,16 @@ body{
   font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
-  background-color: #507EA3;
+  background-color: #507ea3;
   color: white;
+  display: none;
 }
 
-.start{
+.restartbtn:hover {
+  background-color: #3c5f7a;
+}
+
+.start {
   text-decoration: none;
   padding: 2rem;
   border: none;
@@ -49,8 +55,12 @@ body{
   font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
-  background-color: #507EA3;
+  background-color: #507ea3;
   color: white;
+}
+
+.start:hover {
+  background-color: #3c5f7a;
 }
 
 .gameboard {
@@ -64,7 +74,7 @@ body{
 
 .cell {
   color: #3a3b3c;
-  background-color: #82A9D8;
+  background-color: #82a9d8;
   border: 2px solid black;
   border-radius: 15px;
   min-height: 200px;
@@ -76,7 +86,6 @@ body{
   cursor: pointer;
 }
 
-.cell:hover{
+.cell:hover {
   background-color: rgb(85, 119, 158);
 }
-

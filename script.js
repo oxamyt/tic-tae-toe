@@ -189,15 +189,22 @@ const gameController = (() => {
     render();
   };
 
+  // Display restart button
+  const display = () => {
+    resBtn.style.display = "block";
+  };
+
   return {
     placeMark,
     restart,
     render,
+    display,
   };
 })();
 
 // Event listeners
 startBtn.addEventListener("click", gameController.render);
+startBtn.addEventListener("click", gameController.display);
 gameboard.addEventListener("click", (e) => {
   if (e.target == e.currentTarget) return;
   const i = e.target.getAttribute("data-i");
