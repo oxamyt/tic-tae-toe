@@ -1,3 +1,11 @@
+// Selectors
+const gameboard = document.querySelector(".gameboard");
+const status = document.querySelector(".status");
+const cell = document.querySelector(".cell");
+const startBtn = document.querySelector(".start");
+const resBtn = document.querySelector(".restartbtn");
+
+
 // Create the game boardFunction
 const boardFunction = (function () {
   let board = [
@@ -8,6 +16,7 @@ const boardFunction = (function () {
   return board;
 })();
 
+// Create player factory function
 function createPlayer(name, marker) {
   return {
     name: name,
@@ -15,14 +24,17 @@ function createPlayer(name, marker) {
   };
 }
 
+// Creating players
 const playerOne = createPlayer("PlayerOne", "O");
 const playerTwo = createPlayer("PlayerTwo", "X");
-const status = document.querySelector(".status");
 const players = [playerOne, playerTwo];
 
 let activePlayer = players[0].marker;
+
+// Is end variable
 let isEnd = false;
 
+// Turn function
 const switchPlayerTurn = function () {
   activePlayer =
     activePlayer === players[0].marker ? players[1].marker : players[0].marker;
@@ -120,15 +132,6 @@ function checkWinner() {
   }
 }
 
-const gameboard = document.querySelector(".gameboard");
-
-gameboard.addEventListener("click", (e) => {
-  if (e.target == e.currentTarget) return;
-  const i = e.target.getAttribute("data-i");
-  const j = e.target.getAttribute("data-j");
-  placeMark(i, j);
-});
-
 function render() {
   if (isEnd) return;
   startBtn.style.display = "none";
@@ -146,6 +149,7 @@ function render() {
   }
 }
 
+// Restart function
 function restart() {
   isEnd = false;
   status.innerText = "";
@@ -158,8 +162,12 @@ function restart() {
   render();
 }
 
-const cell = document.querySelector(".cell");
-const startBtn = document.querySelector(".start");
+// Event listeners
 startBtn.addEventListener("click", render);
-const resBtn = document.querySelector(".restartbtn");
+gameboard.addEventListener("click", (e) => {
+  if (e.target == e.currentTarget) return;
+  const i = e.target.getAttribute("data-i");
+  const j = e.target.getAttribute("data-j");
+  placeMark(i, j);
+});
 resBtn.addEventListener("click", restart);
