@@ -26,6 +26,19 @@ body{
 .status{
   font-weight: bold;
   font-size: 2.5rem;
+  color: #346785;
+}
+
+.restartbtn{
+  text-decoration: none;
+  padding: 1rem;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #507EA3;
+  color: white;
 }
 
 .start{
