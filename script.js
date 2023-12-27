@@ -23,22 +23,6 @@ const boardFunction = (function () {
   return board;
 })();
 
-// Display the game boardFunction
-function displayBoard() {
-  console.clear(); // Clear the console for a clean display
-  for (let i = 0; i < 3; i++) {
-    console.log("-----------");
-    console.log(
-      " | " +
-        boardFunction[i][0] +
-        " | " +
-        boardFunction[i][1] +
-        " | " +
-        boardFunction[i][2] +
-        " | "
-    );
-  }
-}
 
 function createPlayer(name, marker) {
   return {
@@ -63,7 +47,6 @@ const switchPlayerTurn = function () {
 function placeMark(row, col) {
   if (boardFunction[row][col].length === 0) {
     boardFunction[row][col] = mark = switchPlayerTurn();
-    displayBoard();
     render();
     checkWinner();
   }
@@ -71,32 +54,33 @@ function placeMark(row, col) {
 
 // Check for a winner
 function checkWinner() {
+  const status = document.querySelector('.status');
   for (let i = 0; i < 3; i++) {
     if (
       boardFunction[i][0] == "X" &&
       boardFunction[i][1] == boardFunction[i][0] &&
       boardFunction[i][1] == boardFunction[i][2]
     ) {
-      alert(`Player Two Won!`);
+      status.innerText = 'Player Two Wins!';
     } else if (
       boardFunction[i][0] == "O" &&
       boardFunction[i][1] == boardFunction[i][0] &&
       boardFunction[i][1] == boardFunction[i][2]
     ) {
-      alert(`Player One Won!`);
+      status.innerText = 'Player One Wins!';
     }
     if (
       boardFunction[0][i] == "X" &&
       boardFunction[1][i] == boardFunction[0][i] &&
       boardFunction[1][i] == boardFunction[2][i]
     ) {
-      alert(`Player Two Won!`);
+      status.innerText = 'Player Two Wins!';
     } else if (
       boardFunction[0][i] == "O" &&
       boardFunction[1][i] == boardFunction[0][i] &&
       boardFunction[1][i] == boardFunction[2][i]
     ) {
-      alert(`Player One Won!`);
+      status.innerText = 'Player One Wins!';
     }
   }
   if (
@@ -104,28 +88,28 @@ function checkWinner() {
     boardFunction[1][1] == boardFunction[0][0] &&
     boardFunction[2][2] == boardFunction[1][1]
   ) {
-    alert(`Player Two Won!`);
+    status.innerText = 'Player Two Wins!';
   }
   if (
     boardFunction[0][2] == "X" &&
     boardFunction[1][1] == boardFunction[0][2] &&
     boardFunction[2][0] == boardFunction[1][1]
   ) {
-    alert(`Player Two Won!`);
+    status.innerText = 'Player Two Wins!';
   }
   if (
     boardFunction[0][0] == "O" &&
     boardFunction[1][1] == boardFunction[0][0] &&
     boardFunction[2][2] == boardFunction[1][1]
   ) {
-    alert(`Player One Won!`);
+    status.innerText = 'Player One Wins!';
   }
   if (
     boardFunction[0][2] == "O" &&
     boardFunction[1][1] == boardFunction[0][2] &&
     boardFunction[2][0] == boardFunction[1][1]
   ) {
-    alert(`Player One Won!`);
+    status.innerText = 'Player One Wins!';
   }
   if (
     boardFunction[0][0] !== "" &&
@@ -138,10 +122,11 @@ function checkWinner() {
     boardFunction[2][1] !== "" &&
     boardFunction[2][2] !== ""
   ) {
-    alert(`Draw!`);
+    status.innerText = 'Draw!';
   }
 }
 function render() {
+  startBtn.style.display = 'none';
   const gameboard = document.querySelector(".gameboard");
   gameboard.innerHTML = "";
   for (let i = 0; i < boardFunction.length; i++) {
@@ -164,4 +149,6 @@ function render() {
 }
 
 const cell = document.querySelector(".cell");
-render();
+const startBtn = document.querySelector('.start')
+startBtn.addEventListener('click', render);
+
