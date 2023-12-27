@@ -13,8 +13,10 @@ const GameBoard = (() => {
     ["", "", ""],
   ];
 
+  // Get Board Function
   const getBoard = () => board;
 
+  // Reset Board Function
   const resetBoard = () => {
     board = [
       ["", "", ""],
@@ -159,6 +161,7 @@ const gameController = (() => {
     }
   };
 
+  // Render Function
   function render() {
     if (isEnd) return;
     const board = GameBoard.getBoard();
