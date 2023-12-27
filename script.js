@@ -5,169 +5,200 @@ const cell = document.querySelector(".cell");
 const startBtn = document.querySelector(".start");
 const resBtn = document.querySelector(".restartbtn");
 
-
-// Create the game boardFunction
-const boardFunction = (function () {
+// Create the game GameBoard
+const GameBoard = (() => {
   let board = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ];
-  return board;
+
+  const getBoard = () => board;
+
+  const resetBoard = () => {
+    board = [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+    ];
+  };
+
+  return {
+    getBoard,
+    resetBoard,
+  };
 })();
 
 // Create player factory function
-function createPlayer(name, marker) {
+const Player = (() => {
+  function createPlayer(name, marker) {
+    return {
+      name,
+      marker,
+    };
+  }
+
   return {
-    name: name,
-    marker: marker,
+    createPlayer,
   };
-}
+})();
 
-// Creating players
-const playerOne = createPlayer("PlayerOne", "O");
-const playerTwo = createPlayer("PlayerTwo", "X");
-const players = [playerOne, playerTwo];
+// Game controller
+const gameController = (() => {
+  const players = [
+    Player.createPlayer("Player One", "O"),
+    Player.createPlayer("Player Two", "X"),
+  ];
 
-let activePlayer = players[0].marker;
+  // Active player variable
+  let activePlayer = players[0].marker;
 
-// Is end variable
-let isEnd = false;
+  // Is end variable
+  let isEnd = false;
 
-// Turn function
-const switchPlayerTurn = function () {
-  activePlayer =
-    activePlayer === players[0].marker ? players[1].marker : players[0].marker;
-  return activePlayer;
-};
-// Place the player's mark
-function placeMark(row, col) {
-  if (isEnd) return;
-  if (boardFunction[row][col].length === 0) {
-    boardFunction[row][col] = mark = switchPlayerTurn();
+  // Turn function
+  const switchPlayerTurn = () => {
+    activePlayer =
+      activePlayer === players[0].marker
+        ? players[1].marker
+        : players[0].marker;
+    return activePlayer;
+  };
+
+  // Place the player's mark
+  const placeMark = (row, col) => {
+    if (isEnd) return;
+    const board = GameBoard.getBoard();
+    if (board[row][col].length === 0) {
+      board[row][col] = switchPlayerTurn();
+      render();
+      checkWinner();
+    }
+  };
+
+  // Check for a winner
+  const checkWinner = () => {
+    const board = GameBoard.getBoard();
+    for (let i = 0; i < 3; i++) {
+      if (
+        board[i][0] == "X" &&
+        board[i][1] == board[i][0] &&
+        board[i][1] == board[i][2]
+      ) {
+        status.innerText = "Player Two Wins!";
+        isEnd = true;
+      } else if (
+        board[i][0] == "O" &&
+        board[i][1] == board[i][0] &&
+        board[i][1] == board[i][2]
+      ) {
+        status.innerText = "Player One Wins!";
+        isEnd = true;
+      }
+      if (
+        board[0][i] == "X" &&
+        board[1][i] == board[0][i] &&
+        board[1][i] == board[2][i]
+      ) {
+        status.innerText = "Player Two Wins!";
+        isEnd = true;
+      } else if (
+        board[0][i] == "O" &&
+        board[1][i] == board[0][i] &&
+        board[1][i] == board[2][i]
+      ) {
+        status.innerText = "Player One Wins!";
+        isEnd = true;
+      }
+    }
+    if (
+      board[0][0] == "X" &&
+      board[1][1] == board[0][0] &&
+      board[2][2] == board[1][1]
+    ) {
+      status.innerText = "Player Two Wins!";
+      isEnd = true;
+    }
+    if (
+      board[0][2] == "X" &&
+      board[1][1] == board[0][2] &&
+      board[2][0] == board[1][1]
+    ) {
+      status.innerText = "Player Two Wins!";
+      isEnd = true;
+    }
+    if (
+      board[0][0] == "O" &&
+      board[1][1] == board[0][0] &&
+      board[2][2] == board[1][1]
+    ) {
+      status.innerText = "Player One Wins!";
+      isEnd = true;
+    }
+    if (
+      board[0][2] == "O" &&
+      board[1][1] == board[0][2] &&
+      board[2][0] == board[1][1]
+    ) {
+      status.innerText = "Player One Wins!";
+      isEnd = true;
+    }
+    if (
+      board[0][0] !== "" &&
+      board[0][1] !== "" &&
+      board[0][2] !== "" &&
+      board[1][0] !== "" &&
+      board[1][1] !== "" &&
+      board[1][2] !== "" &&
+      board[2][0] !== "" &&
+      board[2][1] !== "" &&
+      board[2][2] !== ""
+    ) {
+      status.innerText = "Draw!";
+      isEnd = true;
+    }
+  };
+
+  function render() {
+    if (isEnd) return;
+    const board = GameBoard.getBoard();
+    startBtn.style.display = "none";
+    gameboard.innerHTML = "";
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board.length; j++) {
+        let cellMark = board[i][j];
+        let cell = document.createElement("div");
+        cell.setAttribute("data-i", i);
+        cell.setAttribute("data-j", j);
+        cell.classList.add("cell");
+        cell.innerText = cellMark;
+        gameboard.appendChild(cell);
+      }
+    }
+  }
+
+  // Restart function
+  const restart = () => {
+    isEnd = false;
+    status.innerText = "";
+    GameBoard.resetBoard();
+    activePlayer = players[0].marker;
     render();
-    checkWinner();
-  }
-}
+  };
 
-// Check for a winner
-function checkWinner() {
-  for (let i = 0; i < 3; i++) {
-    if (
-      boardFunction[i][0] == "X" &&
-      boardFunction[i][1] == boardFunction[i][0] &&
-      boardFunction[i][1] == boardFunction[i][2]
-    ) {
-      status.innerText = "Player Two Wins!";
-      isEnd = true;
-    } else if (
-      boardFunction[i][0] == "O" &&
-      boardFunction[i][1] == boardFunction[i][0] &&
-      boardFunction[i][1] == boardFunction[i][2]
-    ) {
-      status.innerText = "Player One Wins!";
-      isEnd = true;
-    }
-    if (
-      boardFunction[0][i] == "X" &&
-      boardFunction[1][i] == boardFunction[0][i] &&
-      boardFunction[1][i] == boardFunction[2][i]
-    ) {
-      status.innerText = "Player Two Wins!";
-      isEnd = true;
-    } else if (
-      boardFunction[0][i] == "O" &&
-      boardFunction[1][i] == boardFunction[0][i] &&
-      boardFunction[1][i] == boardFunction[2][i]
-    ) {
-      status.innerText = "Player One Wins!";
-      isEnd = true;
-    }
-  }
-  if (
-    boardFunction[0][0] == "X" &&
-    boardFunction[1][1] == boardFunction[0][0] &&
-    boardFunction[2][2] == boardFunction[1][1]
-  ) {
-    status.innerText = "Player Two Wins!";
-    isEnd = true;
-  }
-  if (
-    boardFunction[0][2] == "X" &&
-    boardFunction[1][1] == boardFunction[0][2] &&
-    boardFunction[2][0] == boardFunction[1][1]
-  ) {
-    status.innerText = "Player Two Wins!";
-    isEnd = true;
-  }
-  if (
-    boardFunction[0][0] == "O" &&
-    boardFunction[1][1] == boardFunction[0][0] &&
-    boardFunction[2][2] == boardFunction[1][1]
-  ) {
-    status.innerText = "Player One Wins!";
-    isEnd = true;
-  }
-  if (
-    boardFunction[0][2] == "O" &&
-    boardFunction[1][1] == boardFunction[0][2] &&
-    boardFunction[2][0] == boardFunction[1][1]
-  ) {
-    status.innerText = "Player One Wins!";
-    isEnd = true;
-  }
-  if (
-    boardFunction[0][0] !== "" &&
-    boardFunction[0][1] !== "" &&
-    boardFunction[0][2] !== "" &&
-    boardFunction[1][0] !== "" &&
-    boardFunction[1][1] !== "" &&
-    boardFunction[1][2] !== "" &&
-    boardFunction[2][0] !== "" &&
-    boardFunction[2][1] !== "" &&
-    boardFunction[2][2] !== ""
-  ) {
-    status.innerText = "Draw!";
-    isEnd = true;
-  }
-}
-
-function render() {
-  if (isEnd) return;
-  startBtn.style.display = "none";
-  gameboard.innerHTML = "";
-  for (let i = 0; i < boardFunction.length; i++) {
-    for (let j = 0; j < boardFunction.length; j++) {
-      let cellMark = boardFunction[i][j];
-      let cell = document.createElement("div");
-      cell.setAttribute("data-i", i);
-      cell.setAttribute("data-j", j);
-      cell.classList.add("cell");
-      cell.innerText = cellMark;
-      gameboard.appendChild(cell);
-    }
-  }
-}
-
-// Restart function
-function restart() {
-  isEnd = false;
-  status.innerText = "";
-  for (let i = 0; i < boardFunction.length; i++) {
-    for (let j = 0; j < boardFunction.length; j++) {
-      boardFunction[i][j] = "";
-    }
-  }
-  activePlayer = players[0].marker;
-  render();
-}
+  return {
+    placeMark,
+    restart,
+    render,
+  };
+})();
 
 // Event listeners
-startBtn.addEventListener("click", render);
+startBtn.addEventListener("click", gameController.render);
 gameboard.addEventListener("click", (e) => {
   if (e.target == e.currentTarget) return;
   const i = e.target.getAttribute("data-i");
   const j = e.target.getAttribute("data-j");
-  placeMark(i, j);
+  gameController.placeMark(i, j);
 });
-resBtn.addEventListener("click", restart);
+resBtn.addEventListener("click", gameController.restart);
